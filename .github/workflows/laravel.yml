@@ -24,18 +24,13 @@ jobs:
           --health-retries=3
         ports:
           - 3306:3306
-        # Attendre que MySQL soit prêt avant d'exécuter les tests
-        healthcheck:
-          test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 --silent"]
-          interval: 10s
-          retries: 5
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Set up PHP
-      uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+      uses: shivammathur/setup-php@v2
       with:
         php-version: '8.1'
 
@@ -52,7 +47,12 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
 
     - name: Wait for MySQL to be ready
-      run: sleep 10
+      run: |
+        echo "Waiting for MySQL to be ready..."
+        until mysqladmin ping -h 127.0.0.1 --silent; do
+          echo "Waiting for MySQL..."
+          sleep 5
+        done
 
     - name: Run Migrations
       env:
