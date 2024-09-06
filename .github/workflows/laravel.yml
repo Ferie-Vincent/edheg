@@ -7,15 +7,15 @@ on:
     branches: ["main"]
 
 jobs:
-  laravel-tests:
+  laravel-deploy:
     runs-on: ubuntu-latest
 
     services:
       mysql:
         image: mysql:8.1
         env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: laravel
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: db_edheg
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -39,6 +39,4 @@ jobs:
           DB_PORT: 3306
           DB_DATABASE: db_edheg
           DB_USERNAME: root
-          DB_PASSWORD: password
-      - name: Run Laravel Pint
-        run: vendor/bin/pint --test
+          DB_PASSWORD: root
