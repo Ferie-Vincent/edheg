@@ -31,20 +31,20 @@ jobs:
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.1
         with:
-          server: 195.154.87.159
+          server: ftp://195.154.87.159
           username: gpeedheg-abidjancii
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./  # Dossier à uploader (racine du projet Laravel)
           server-dir: /httpdocs/
           exclude: |
             .git*
-            node_modules/
+            node_modules/  # Exclusion complète du dossier node_modules
             vendor/
             storage/*.key
-            .env  # Excluez .env si vous souhaitez le gérer séparément
+            .env
 
       - name: Generate Laravel Key
         run: php artisan key:generate
         working-directory: /httpdocs  # Assurez-vous que cette ligne pointe vers le répertoire de votre application Laravel sur le serveur
         env:
-          APP_ENV: production  # Assurez-vous que ces variables d'environnement sont correctement définies
+          APP_ENV: production
