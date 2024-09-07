@@ -41,7 +41,7 @@ jobs:
           username: gpeedheg-abidjancii
           password: ${{ secrets.FTP_PASSWORD }}  # Assurez-vous que ce secret est bien configuré dans GitHub
           local-dir: ./  # Dossier à uploader (racine du projet Laravel)
-          server-dir: /httpdocs
+          server-dir: /httpdocs/
           exclude: |
             .git*
             node_modules/
