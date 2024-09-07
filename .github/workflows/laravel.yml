@@ -39,7 +39,7 @@ jobs:
         with:
           server: ftp://195.154.87.159
           username: gpeedheg-abidjancii
-          ftp-password: ${{ secrets.FTP_PASSWORD }}  # Utilisation des secrets GitHub pour des informations sensibles
+          password: ${{ secrets.FTP_PASSWORD }}  # Utilisation des secrets GitHub pour des informations sensibles
           local-dir: ./  # Dossier à uploader (racine du projet Laravel)
           server-dir: /httpdocs
           exclude: |
