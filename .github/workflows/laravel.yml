@@ -38,7 +38,7 @@ jobs:
           username: gpeedheg-abidjancii
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./  # Dossier à uploader
-          server-dir: httpdocs/
+          #server-dir: httpdocs/
           exclude: |
             .git*
             node_modules/
