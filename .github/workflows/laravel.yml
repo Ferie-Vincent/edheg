@@ -14,7 +14,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
+          php-version: "8.2"  # Version PHP utilisée par Laravel
 
       - name: Install Composer Dependencies
         run: composer install --no-dev --prefer-dist --no-interaction
@@ -23,36 +23,33 @@ jobs:
         run: npm install
 
       - name: Build assets (front-end)
-        run: npm run build
-
-      - name: Clean node_modules
-        run: rm -rf node_modules/
+        run: npm run build  # Remplace npm run prod par build selon le package.json
 
       - name: Set Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
+
+      # Suppression de la copie du fichier .env.example
+      # Si le fichier .env est déjà présent localement, on l'inclut dans le déploiement
+
+      - name: Check current directory
+        run: pwd  # Vérifie le répertoire de travail actuel
+
+      - name: Generate Laravel Key
+        run: php artisan key:generate
+        env:
+          APP_ENV: production
 
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.1
         with:
           server: 195.154.87.159
           username: gpeedheg-abidjancii
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./  # Dossier à uploader
-          server-dir: ./httpdocs/
+          password: ${{ secrets.FTP_PASSWORD }}  # Assurez-vous que ce secret est bien configuré dans GitHub
+          local-dir: ./  # Dossier à uploader (racine du projet Laravel)
+          server-dir: /httpdocs/  # Notez le "/" à la fin
           exclude: |
             .git*
             node_modules/
             vendor/
             storage/*.key
-            .env
-            .github/
-            tests/
-            .vscode/
-
-      - name: List server directory
-        run: ls -la ./
-
-      - name: Generate Laravel Key
-        run: php artisan key:generate
-        env:
-          APP_ENV: production
+            # Suppression de l'exclusion du fichier .env
