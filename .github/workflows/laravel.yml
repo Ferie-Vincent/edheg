@@ -38,7 +38,7 @@ jobs:
           username: gpeedheg-abidjancii
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./  # Dossier à uploader
-          #server-dir: httpdocs/
+          server-dir: ./httpdocs/
           exclude: |
             .git*
             node_modules/
@@ -50,7 +50,7 @@ jobs:
             .vscode/
 
       - name: List server directory
-        run: ls -la /httpdocs/  # Vérifiez si le répertoire contient les fichiers déployés
+        run: ls -la ./
 
       - name: Generate Laravel Key
         run: php artisan key:generate
