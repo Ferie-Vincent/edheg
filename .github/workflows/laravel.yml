@@ -14,7 +14,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"  # Version PHP utilisée par Laravel
+          php-version: "8.2"
 
       - name: Install Composer Dependencies
         run: composer install --no-dev --prefer-dist --no-interaction
@@ -23,9 +23,9 @@ jobs:
         run: npm install
 
       - name: Build assets (front-end)
-        run: npm run build  # Utiliser la commande de build pour générer les fichiers front-end
+        run: npm run build
 
-      - name: Clean node_modules  # Nettoyer le dossier node_modules avant le déploiement
+      - name: Clean node_modules
         run: rm -rf node_modules/
 
       - name: Set Directory Permissions
@@ -37,9 +37,9 @@ jobs:
           server: 195.154.87.159
           username: gpeedheg-abidjancii
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./  # Dossier à uploader (racine du projet Laravel)
-          server-dir: /httpdocs/
-          exclude: |  # Exclure certains dossiers et fichiers inutiles
+          local-dir: ./  # Dossier à uploader
+          server-dir: httpdocs/
+          exclude: |
             .git*
             node_modules/
             vendor/
@@ -49,8 +49,10 @@ jobs:
             tests/
             .vscode/
 
+      - name: List server directory
+        run: ls -la /httpdocs/  # Vérifiez si le répertoire contient les fichiers déployés
+
       - name: Generate Laravel Key
         run: php artisan key:generate
-        working-directory: /httpdocs  # Répertoire où votre app est déployée sur le serveur
         env:
           APP_ENV: production
