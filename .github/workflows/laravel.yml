@@ -28,8 +28,8 @@ jobs:
       - name: Set Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
-      # Suppression de la copie du fichier .env.example
-      # Si le fichier .env est déjà présent localement, on l'inclut dans le déploiement
+      - name: Copy .env file
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
       - name: Check current directory
         run: pwd  # Vérifie le répertoire de travail actuel
@@ -46,10 +46,10 @@ jobs:
           username: gpeedheg-abidjancii
           password: ${{ secrets.FTP_PASSWORD }}  # Assurez-vous que ce secret est bien configuré dans GitHub
           local-dir: ./  # Dossier à uploader (racine du projet Laravel)
-          server-dir: /httpdocs/  # Notez le "/" à la fin
+          server-dir: /httpdocs  # Essayez sans la barre oblique finale
           exclude: |
             .git*
             node_modules/
             vendor/
             storage/*.key
-            # Suppression de l'exclusion du fichier .env
+            .env
