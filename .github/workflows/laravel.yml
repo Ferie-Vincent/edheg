@@ -28,6 +28,9 @@ jobs:
       - name: Set Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
+      - name: Ensure .env file exists
+        run: php -r "if (!file_exists('.env')) { copy('.env.example', '.env'); }"
+
       - name: Generate Laravel Key
         run: php artisan key:generate
 
