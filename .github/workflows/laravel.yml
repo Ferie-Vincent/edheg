@@ -37,7 +37,7 @@ jobs:
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.1
         with:
-          server: ftp://195.154.87.159
+          server: 195.154.87.159
           username: gpeedheg-abidjancii
           password: ${{ secrets.FTP_PASSWORD }}  # Assurez-vous que ce secret est bien configuré dans GitHub
           local-dir: ./  # Dossier à uploader (racine du projet Laravel)
