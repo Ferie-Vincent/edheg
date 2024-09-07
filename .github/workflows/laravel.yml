@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Build assets (front-end)
-        run: npm run prod
+        run: npm run build  # Utilise Vite pour la build des assets front-end
 
       - name: Set Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
@@ -34,9 +34,9 @@ jobs:
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.1
         with:
-          ftp-server: ftp://195.154.87.159  # Utilise sftp pour plus de sécurité
-          ftp-username: gpeedheg-abidjancii   # Nom d'utilisateur FTP
-          ftp-password: Azertyuiop1234.   # Mot de passe FTP
+          server: ftp://195.154.87.159
+          username: gpeedheg-abidjancii
+          ftp-password: ${{ secrets.FTP_PASSWORD }}  # Utilisation des secrets GitHub pour des informations sensibles
           local-dir: ./  # Dossier à uploader (racine du projet Laravel)
           server-dir: /httpdocs
           exclude: |
