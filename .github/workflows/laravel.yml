@@ -31,12 +31,6 @@ jobs:
       - name: Generate Laravel Key
         run: php artisan key:generate
 
-      - name: Create .env file
-        run: |
-          if [ ! -f .env ]; then
-            cp .env.example .env
-          fi
-
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.1
         with:
@@ -50,4 +44,3 @@ jobs:
             node_modules/
             vendor/
             storage/*.key
-            .env
